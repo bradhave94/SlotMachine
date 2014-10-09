@@ -71,6 +71,18 @@
   <ItemGroup>
     <Content Include="css\main.css" />
     <Content Include="css\normalize.css" />
+    <Content Include="images\bananas.png" />
+    <Content Include="images\bars.png" />
+    <Content Include="images\bells.png" />
+    <Content Include="images\betMax.png" />
+    <Content Include="images\betOne.png" />
+    <Content Include="images\cherries.png" />
+    <Content Include="images\fruit.png" />
+    <Content Include="images\grapes.png" />
+    <Content Include="images\orange.png" />
+    <Content Include="images\reset.png" />
+    <Content Include="images\sevens.png" />
+    <Content Include="images\spin.png" />
     <Content Include="index.html" />
     <Content Include="Scripts\main.js" />
     <Content Include="packages.config" />
@@ -91,9 +103,7 @@
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\tweenjs\tweenjs.d.ts" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

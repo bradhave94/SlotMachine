@@ -9,13 +9,29 @@ var spinResult;
 var fruits = "";
 var winRatio = 0;
 var grapes = 0;
+var grapesImg = new Image();
+grapesImg.src = "./images/grapes.png";
 var bananas = 0;
+var bananasImg = new Image();
+bananasImg.src = "./images/bananas.png";
 var oranges = 0;
+var orangesImg = new Image();
+orangesImg.src = "./images/orange.png";
 var cherries = 0;
+var cherriesImg = new Image();
+cherriesImg.src = "./images/cherries.png";
 var bars = 0;
+var barsImg = new Image();
+barsImg.src = "./images/bars.png";
 var bells = 0;
+var bellsImg = new Image();
+bellsImg.src = "./images/bells.png";
 var sevens = 0;
+var sevensImg = new Image();
+sevensImg.src = "./images/sevens.png";
 var blanks = 0;
+var blanksImg = new Image();
+blanksImg.src = "./images/blanks.png";
 
 var stage = new createjs.Stage(document.getElementById("canvas"));
 
@@ -33,9 +49,16 @@ var closeButtonGloss = new createjs.Bitmap("./images/closeButtonGloss.png");
 var jackpotTextBox = new createjs.Bitmap("./images/jackpotTextBox.png");
 var playerBetTextBox = new createjs.Bitmap("./images/textBox.png");
 var creditsTextBox = new createjs.Bitmap("./images/textBox.png");
+var winOrLoseTextBox = new createjs.Bitmap("./images/winOrLoseTextBox.png");
 var jackpotText = new createjs.Text("Jackpot: " + jackpot, "12px Myriad Pro", "#FF0000");
 var playerBetText = new createjs.Text("Payer Bet: " + playerBet, "12px Myriad Pro", "#FF0000");
 var creditsText = new createjs.Text("Credits: " + playerMoney, "12px Myriad Pro", "#FF0000");
+
+var winOrLoseText = new createjs.Text("Welcome!", "35px Myriad Pro", "#FFFF00");
+
+var reel1 = new createjs.Bitmap(sevensImg);
+var reel2 = new createjs.Bitmap(sevensImg);
+var reel3 = new createjs.Bitmap(sevensImg);
 
 var timer = 0;
 var resetClicked = false;
@@ -82,6 +105,22 @@ function init() {
     stage.addChild(creditsText);
     creditsText.x = 399;
     creditsText.y = 527;
+    stage.addChild(winOrLoseTextBox);
+    winOrLoseTextBox.x = 183;
+    winOrLoseTextBox.y = 783;
+    stage.addChild(winOrLoseText);
+    winOrLoseText.x = 194;
+    winOrLoseText.y = 792;
+
+    stage.addChild(reel1);
+    reel1.x = 206;
+    reel1.y = 374;
+    stage.addChild(reel2);
+    reel2.x = 310;
+    reel2.y = 374;
+    stage.addChild(reel3);
+    reel3.x = 412;
+    reel3.y = 374;
 
     stage.update();
     createjs.Ticker.addEventListener("tick", handleTick);
@@ -310,6 +349,7 @@ function resetAll() {
     jackpotText.text = "Jackpot: " + jackpot;
     creditsText.text = "Credits: " + playerMoney;
     playerBetText.text = "Player Bet: " + playerBet;
+    winOrLoseText.text = "Welcome!";
 }
 
 /* Check to see if the player won the jackpot */
@@ -319,6 +359,7 @@ function checkJackPot() {
     var jackPotWin = Math.floor(Math.random() * 51 + 1);
     if (jackPotTry == jackPotWin) {
         alert("You Won the $" + jackpot + " Jackpot!!");
+        winOrLoseText.text = "JACKPOT!!!!! $" + jackpot;
         playerMoney += jackpot;
         jackpot = 1000;
     }
@@ -328,7 +369,7 @@ function checkJackPot() {
 function showWinMessage() {
     playerMoney += winnings;
     stage.update();
-    $("div#winOrLose>p").text("You Won: $" + winnings);
+    winOrLoseText.text = "You Won! $" + winnings;
     resetFruitTally();
     checkJackPot();
 }
@@ -336,7 +377,7 @@ function showWinMessage() {
 /* Utility function to show a loss message and reduce player money */
 function showLossMessage() {
     playerMoney -= playerBet;
-    $("div#winOrLose>p").text("You Lost!");
+    winOrLoseText.text = "You Lost!";
     resetFruitTally();
     jackpot += +playerBet;
     jackpotText.text = "Jackpot: " + jackpot;
@@ -363,6 +404,7 @@ function Reels() {
         switch (outCome[spin]) {
             case checkRange(outCome[spin], 1, 27):
                 betLine[spin] = "blank";
+
                 blanks++;
                 break;
             case checkRange(outCome[spin], 28, 37):

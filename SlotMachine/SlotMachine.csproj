@@ -61,6 +61,7 @@
   <ItemGroup>
     <Content Include="images\betMaxGloss.png" />
     <Content Include="images\betOneGloss.png" />
+    <Content Include="images\blankes.png" />
     <Content Include="images\closeButton.png" />
     <Content Include="images\closeButtonGloss.png" />
     <Content Include="images\jackpotTextBox.png" />
@@ -69,6 +70,7 @@
     <Content Include="images\spin.png" />
     <Content Include="images\spinGloss.png" />
     <Content Include="images\textBox.png" />
+    <Content Include="images\winOrLoseTextBox.png" />
     <Content Include="Scripts\app.js.map" />
     <Content Include="Scripts\game.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />

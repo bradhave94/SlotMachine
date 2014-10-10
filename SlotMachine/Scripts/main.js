@@ -28,16 +28,18 @@ var resetGloss = new createjs.Bitmap("../images/resetGloss.png");
 var betOneGloss = new createjs.Bitmap("../images/betOneGloss.png");
 var betMaxGloss = new createjs.Bitmap("../images/betMaxGloss.png");
 var spinGloss = new createjs.Bitmap("../images/spinGloss.png");
+var closeButton = new createjs.Bitmap("../images/closeButton.png");
+var closeButtonGloss = new createjs.Bitmap("../images/closeButtonGloss.png");
 
 var timer = 0;
 var resetClicked = false;
 var betOneClicked = false;
 var betMaxClicked = false;
 var spinClicked = false;
+var closeButtonClicked = false;
 
 function init() {
     createjs.Ticker.setFPS(60);
-
     stage.enableMouseOver(20);
 
     stage.addChild(image);
@@ -53,13 +55,16 @@ function init() {
     stage.addChild(spin);
     spin.x = 438;
     spin.y = 594;
+    stage.addChild(closeButton);
+    closeButton.x = 112;
+    closeButton.y = 779;
 
     stage.update();
 
     createjs.Ticker.addEventListener("tick", handleTick);
 
     reset.addEventListener("mouseover", function () {
-        reset.alpha = 0.8;
+        reset.alpha = 0.5;
         stage.update();
     });
     reset.addEventListener("rollout", function () {
@@ -109,6 +114,27 @@ function init() {
         betMaxGloss.y = 608;
         stage.update();
         betMaxClicked = true;
+    });
+
+    closeButton.addEventListener("mouseover", function () {
+        closeButton.alpha = 0.5;
+        stage.update();
+    });
+    closeButton.addEventListener("rollout", function () {
+        closeButton.alpha = 1;
+        stage.update();
+    });
+    closeButton.addEventListener("click", function () {
+        stage.removeChild(closeButton);
+        stage.addChild(closeButtonGloss);
+        closeButtonGloss.x = 112;
+        closeButtonGloss.y = 779;
+        stage.update();
+        closeButtonClicked = true;
+
+        if (confirm("Close Window?")) {
+            close();
+        }
     });
 
     spin.addEventListener("mouseover", function () {
@@ -203,6 +229,19 @@ function handleTick() {
             timer = 0;
             stage.update();
             spinClicked = false;
+        }
+    }
+
+    if (closeButtonClicked) {
+        timer += 1;
+        if (timer > 10) {
+            stage.removeChild(closeButtonGloss);
+            stage.addChild(closeButton);
+            closeButton.x = 112;
+            closeButton.y = 779;
+            timer = 0;
+            stage.update();
+            closeButtonClicked = false;
         }
     }
     stage.update;

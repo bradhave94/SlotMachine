@@ -61,6 +61,8 @@
   <ItemGroup>
     <Content Include="images\betMaxGloss.png" />
     <Content Include="images\betOneGloss.png" />
+    <Content Include="images\closeButton.png" />
+    <Content Include="images\closeButtonGloss.png" />
     <Content Include="images\resetGloss.png" />
     <Content Include="images\spin.png" />
     <Content Include="images\spinGloss.png" />

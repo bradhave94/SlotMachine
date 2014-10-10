@@ -63,9 +63,12 @@
     <Content Include="images\betOneGloss.png" />
     <Content Include="images\closeButton.png" />
     <Content Include="images\closeButtonGloss.png" />
+    <Content Include="images\jackpotTextBox.png" />
     <Content Include="images\resetGloss.png" />
+    <Content Include="images\SlotMachine.png" />
     <Content Include="images\spin.png" />
     <Content Include="images\spinGloss.png" />
+    <Content Include="images\textBox.png" />
     <Content Include="Scripts\app.js.map" />
     <Content Include="Scripts\game.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
@@ -90,7 +93,6 @@
     <Content Include="images\orange.png" />
     <Content Include="images\reset.png" />
     <Content Include="images\sevens.png" />
-    <Content Include="images\SlotMachine.png" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />

@@ -19,17 +19,23 @@ var blanks = 0;
 
 var stage = new createjs.Stage(document.getElementById("canvas"));
 
-var image = new createjs.Bitmap("../images/SlotMachine.png");
-var reset = new createjs.Bitmap("../images/reset.png");
-var betOne = new createjs.Bitmap("../images/betOne.png");
-var betMax = new createjs.Bitmap("../images/betMax.png");
-var spin = new createjs.Bitmap("../images/spin.png");
-var resetGloss = new createjs.Bitmap("../images/resetGloss.png");
-var betOneGloss = new createjs.Bitmap("../images/betOneGloss.png");
-var betMaxGloss = new createjs.Bitmap("../images/betMaxGloss.png");
-var spinGloss = new createjs.Bitmap("../images/spinGloss.png");
-var closeButton = new createjs.Bitmap("../images/closeButton.png");
-var closeButtonGloss = new createjs.Bitmap("../images/closeButtonGloss.png");
+var image = new createjs.Bitmap("./images/SlotMachine.png");
+var reset = new createjs.Bitmap("./images/reset.png");
+var betOne = new createjs.Bitmap("./images/betOne.png");
+var betMax = new createjs.Bitmap("./images/betMax.png");
+var spin = new createjs.Bitmap("./images/spin.png");
+var resetGloss = new createjs.Bitmap("./images/resetGloss.png");
+var betOneGloss = new createjs.Bitmap("./images/betOneGloss.png");
+var betMaxGloss = new createjs.Bitmap("./images/betMaxGloss.png");
+var spinGloss = new createjs.Bitmap("./images/spinGloss.png");
+var closeButton = new createjs.Bitmap("./images/closeButton.png");
+var closeButtonGloss = new createjs.Bitmap("./images/closeButtonGloss.png");
+var jackpotTextBox = new createjs.Bitmap("./images/jackpotTextBox.png");
+var playerBetTextBox = new createjs.Bitmap("./images/textBox.png");
+var creditsTextBox = new createjs.Bitmap("./images/textBox.png");
+var jackpotText = new createjs.Text("Jackpot: " + jackpot, "12px Myriad Pro", "#FF0000");
+var playerBetText = new createjs.Text("Payer Bet: " + playerBet, "12px Myriad Pro", "#FF0000");
+var creditsText = new createjs.Text("Credits: " + playerMoney, "12px Myriad Pro", "#FF0000");
 
 var timer = 0;
 var resetClicked = false;
@@ -58,9 +64,26 @@ function init() {
     stage.addChild(closeButton);
     closeButton.x = 112;
     closeButton.y = 779;
+    stage.addChild(jackpotTextBox);
+    jackpotTextBox.x = 284;
+    jackpotTextBox.y = 309;
+    stage.addChild(playerBetTextBox);
+    playerBetTextBox.x = 187;
+    playerBetTextBox.y = 521;
+    stage.addChild(creditsTextBox);
+    creditsTextBox.x = 384;
+    creditsTextBox.y = 521;
+    stage.addChild(jackpotText);
+    jackpotText.x = 301;
+    jackpotText.y = 319;
+    stage.addChild(playerBetText);
+    playerBetText.x = 196;
+    playerBetText.y = 527;
+    stage.addChild(creditsText);
+    creditsText.x = 399;
+    creditsText.y = 527;
 
     stage.update();
-
     createjs.Ticker.addEventListener("tick", handleTick);
 
     reset.addEventListener("mouseover", function () {
@@ -95,6 +118,9 @@ function init() {
         stage.addChild(betOneGloss);
         betOneGloss.x = 259;
         betOneGloss.y = 608;
+        playerBet = 1;
+        playerBetText.text = "Player Bet: " + playerBet;
+        showPlayerStats();
         stage.update();
         betOneClicked = true;
     });
@@ -112,6 +138,9 @@ function init() {
         stage.addChild(betMaxGloss);
         betMaxGloss.x = 350;
         betMaxGloss.y = 608;
+        playerBet = 5;
+        playerBetText.text = "Player Bet: " + playerBet;
+        showPlayerStats();
         stage.update();
         betMaxClicked = true;
     });
@@ -133,7 +162,7 @@ function init() {
         closeButtonClicked = true;
 
         if (confirm("Close Window?")) {
-            close();
+            window.open('', '_self', '');
         }
     });
 
@@ -154,27 +183,24 @@ function init() {
         spinGloss.y = 594;
         stage.update();
         spinClicked = true;
-
-        playerBet = $("div#betEntry>input").val();
-
-        if (playerMoney == 0) {
-            if (confirm("You ran out of Money! \nDo you want to play again?")) {
-                resetAll();
+        if (playerBet != 0) {
+            if (playerMoney == 0) {
+                if (confirm("You ran out of Money! \nDo you want to play again?")) {
+                    resetAll();
+                    showPlayerStats();
+                }
+            } else if (playerBet > playerMoney) {
+                alert("You don't have enough Money to place that bet.");
+            } else if (playerBet <= playerMoney) {
+                spinResult = Reels();
+                fruits = spinResult[0] + " - " + spinResult[1] + " - " + spinResult[2];
+                $("div#result>p").text(fruits);
+                determineWinnings();
+                turn++;
                 showPlayerStats();
             }
-        } else if (playerBet > playerMoney) {
-            alert("You don't have enough Money to place that bet.");
-        } else if (playerBet < 0) {
-            alert("All bets must be a positive $ amount.");
-        } else if (playerBet <= playerMoney) {
-            spinResult = Reels();
-            fruits = spinResult[0] + " - " + spinResult[1] + " - " + spinResult[2];
-            $("div#result>p").text(fruits);
-            determineWinnings();
-            turn++;
-            showPlayerStats();
         } else {
-            alert("Please enter a valid bet amount");
+            alert("Please enter a bet amount");
         }
     });
 }
@@ -252,6 +278,7 @@ function showPlayerStats() {
     winRatio = winNumber / turn;
     $("#jackpot").text("Jackpot: " + jackpot);
     $("#playerMoney").text("Player Money: " + playerMoney);
+    $("#playerBet").text("Player Bet: " + playerBet);
     $("#playerTurn").text("Turn: " + turn);
     $("#playerWins").text("Wins: " + winNumber);
     $("#playerLosses").text("Losses: " + lossNumber);
@@ -280,6 +307,9 @@ function resetAll() {
     winNumber = 0;
     lossNumber = 0;
     winRatio = 0;
+    jackpotText.text = "Jackpot: " + jackpot;
+    creditsText.text = "Credits: " + playerMoney;
+    playerBetText.text = "Player Bet: " + playerBet;
 }
 
 /* Check to see if the player won the jackpot */
@@ -297,6 +327,7 @@ function checkJackPot() {
 /* Utility function to show a win message and increase player money */
 function showWinMessage() {
     playerMoney += winnings;
+    stage.update();
     $("div#winOrLose>p").text("You Won: $" + winnings);
     resetFruitTally();
     checkJackPot();
@@ -308,6 +339,8 @@ function showLossMessage() {
     $("div#winOrLose>p").text("You Lost!");
     resetFruitTally();
     jackpot += +playerBet;
+    jackpotText.text = "Jackpot: " + jackpot;
+    creditsText.text = "Credits: " + playerMoney;
 }
 
 /* Utility function to check if a value falls within a range of bounds */

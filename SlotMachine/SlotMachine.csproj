@@ -59,7 +59,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\betMaxGloss.png" />
+    <Content Include="images\betOneGloss.png" />
+    <Content Include="images\resetGloss.png" />
+    <Content Include="images\spin.png" />
+    <Content Include="images\spinGloss.png" />
     <Content Include="Scripts\app.js.map" />
+    <Content Include="Scripts\game.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -82,9 +88,8 @@
     <Content Include="images\orange.png" />
     <Content Include="images\reset.png" />
     <Content Include="images\sevens.png" />
-    <Content Include="images\spin.png" />
+    <Content Include="images\SlotMachine.png" />
     <Content Include="index.html" />
-    <Content Include="Scripts\main.js" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />

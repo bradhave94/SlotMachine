@@ -1,4 +1,4 @@
-﻿
+﻿/// <reference path="jquery.js" />
 var playerMoney = 1000;
 var winnings = 0;
 var jackpot = 5000;
@@ -17,178 +17,6 @@ var bars = 0;
 var bells = 0;
 var sevens = 0;
 var blanks = 0;
-
-var stage = new createjs.Stage(document.getElementById("canvas"));
-
-var image = new createjs.Bitmap("../images/SlotMachine.png");
-var reset = new createjs.Bitmap("../images/reset.png");
-var betOne = new createjs.Bitmap("../images/betOne.png");
-var betMax = new createjs.Bitmap("../images/betMax.png");
-var spin = new createjs.Bitmap("../images/spin.png");
-var resetGloss = new createjs.Bitmap("../images/resetGloss.png");
-var betOneGloss = new createjs.Bitmap("../images/betOneGloss.png");
-var betMaxGloss = new createjs.Bitmap("../images/betMaxGloss.png");
-var spinGloss = new createjs.Bitmap("../images/spinGloss.png");
-
-var timer = 0;
-var resetClicked = false;
-var betOneClicked = false;
-var betMaxClicked = false;
-var spinClicked = false;
-
-function init()
-{   
-    createjs.Ticker.setFPS(60);
-
-    stage.enableMouseOver(20);
-
-    stage.addChild(image);
-    stage.addChild(reset);
-        reset.x = 160;
-        reset.y = 608;
-    stage.addChild(betOne);
-        betOne.x = 259;
-        betOne.y = 608;
-    stage.addChild(betMax);
-        betMax.x = 350;
-        betMax.y = 608;
-    stage.addChild(spin);
-        spin.x = 438;
-        spin.y = 594;
-
-    stage.update();
-
-    createjs.Ticker.addEventListener("tick", handleTick);
-
-
-
-    
-    reset.addEventListener("mouseover", function () {reset.alpha = 0.8; stage.update();});
-    reset.addEventListener("rollout", function () { reset.alpha = 1; stage.update(); });
-    reset.addEventListener("click", function () {
-        stage.removeChild(reset); stage.addChild(resetGloss);
-        resetGloss.x = 160;
-        resetGloss.y = 608;
-        stage.update();
-        resetClicked = true;
-        resetAll();
-        showPlayerStats();
-    })
-
-    betOne.addEventListener("mouseover", function () { betOne.alpha = 0.5; stage.update(); });
-    betOne.addEventListener("rollout", function () { betOne.alpha = 1; stage.update(); });
-    betOne.addEventListener("click", function () {
-        stage.removeChild(betOne); stage.addChild(betOneGloss);
-        betOneGloss.x = 259;
-        betOneGloss.y = 608;
-        stage.update();
-        betOneClicked = true;
-    })
-
-    betMax.addEventListener("mouseover", function () { betMax.alpha = 0.5; stage.update(); });
-    betMax.addEventListener("rollout", function () { betMax.alpha = 1; stage.update(); });
-    betMax.addEventListener("click", function () {
-        stage.removeChild(betMax); stage.addChild(betMaxGloss);
-        betMaxGloss.x = 350;
-        betMaxGloss.y = 608;
-        stage.update();
-        betMaxClicked = true;
-    })
-
-    spin.addEventListener("mouseover", function () { spin.alpha = 0.5; stage.update(); });
-    spin.addEventListener("rollout", function () { spin.alpha = 1; stage.update(); });
-
-    /* When the player clicks the spin button the game kicks off */
-    spin.addEventListener("click", function () {
-        stage.removeChild(spin); stage.addChild(spinGloss);
-        spinGloss.x = 438;
-        spinGloss.y = 594;
-        stage.update();
-        spinClicked = true;
-
-        playerBet = $("div#betEntry>input").val();
-
-        if (playerMoney == 0) {
-            if (confirm("You ran out of Money! \nDo you want to play again?")) {
-                resetAll();
-                showPlayerStats();
-            }
-        }
-        else if (playerBet > playerMoney) {
-            alert("You don't have enough Money to place that bet.");
-        }
-        else if (playerBet < 0) {
-            alert("All bets must be a positive $ amount.");
-        }
-        else if (playerBet <= playerMoney) {
-            spinResult = Reels();
-            fruits = spinResult[0] + " - " + spinResult[1] + " - " + spinResult[2];
-            $("div#result>p").text(fruits);
-            determineWinnings();
-            turn++;
-            showPlayerStats();
-        }
-        else {
-            alert("Please enter a valid bet amount");
-        }
-
-
-    })
-
-
-
-}
-
-function handleTick() {
-    if (resetClicked) {
-        timer += 1;
-        if (timer > 10) {
-            stage.removeChild(resetGloss); stage.addChild(reset);
-            reset.x = 160;
-            reset.y = 608;
-            timer = 0;
-            stage.update();
-            resetClicked = false;
-        }
-    }
-
-    if (betOneClicked) {
-        timer += 1;
-        if (timer > 10) {
-            stage.removeChild(betOneGloss); stage.addChild(betOne);
-            betOne.x = 259;
-            betOne.y = 608;
-            timer = 0;
-            stage.update();
-            betOneClicked = false;
-        }
-    }
-
-    if (betMaxClicked) {
-        timer += 1;
-        if (timer > 10) {
-            stage.removeChild(betMaxGloss); stage.addChild(betMax);
-            betMax.x = 350;
-            betMax.y = 608;
-            timer = 0;
-            stage.update();
-            betMaxClicked = false;
-        }
-    }
-
-    if (spinClicked) {
-        timer += 1;
-        if (timer > 10) {
-            stage.removeChild(spinGloss); stage.addChild(spin);
-            spin.x = 438;
-            spin.y = 594;
-            timer = 0;
-            stage.update();
-            spinClicked = false;
-        }
-    }
-    stage.update;
-}
 
 /* Utility function to show Player Stats */
 function showPlayerStats() {
@@ -251,7 +79,6 @@ function showLossMessage() {
     playerMoney -= playerBet;
     $("div#winOrLose>p").text("You Lost!");
     resetFruitTally();
-    jackpot += +playerBet;
 }
 
 /* Utility function to check if a value falls within a range of bounds */
@@ -371,7 +198,32 @@ function determineWinnings() {
 
 }
 
+/* When the player clicks the spin button the game kicks off */
+$("#spinButton").click(function () {
+    playerBet = $("div#betEntry>input").val();
 
+    if (playerMoney == 0) {
+        if (confirm("You ran out of Money! \nDo you want to play again?")) {
+            resetAll();
+            showPlayerStats();
+        }
+    }
+    else if (playerBet > playerMoney) {
+        alert("You don't have enough Money to place that bet.");
+    }
+    else if (playerBet < 0) {
+        alert("All bets must be a positive $ amount.");
+    }
+    else if (playerBet <= playerMoney) {
+        spinResult = Reels();
+        fruits = spinResult[0] + " - " + spinResult[1] + " - " + spinResult[2];
+        $("div#result>p").text(fruits);
+        determineWinnings();
+        turn++;
+        showPlayerStats();
+    }
+    else {
+        alert("Please enter a valid bet amount");
+    }
 
-
-
+});

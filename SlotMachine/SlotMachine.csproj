@@ -61,7 +61,7 @@
   <ItemGroup>
     <Content Include="images\betMaxGloss.png" />
     <Content Include="images\betOneGloss.png" />
-    <Content Include="images\blankes.png" />
+    <Content Include="images\blanks.png" />
     <Content Include="images\closeButton.png" />
     <Content Include="images\closeButtonGloss.png" />
     <Content Include="images\jackpotTextBox.png" />
@@ -82,7 +82,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\main.css" />
     <Content Include="css\normalize.css" />
     <Content Include="images\bananas.png" />
     <Content Include="images\bars.png" />

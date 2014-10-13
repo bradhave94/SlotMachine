@@ -1,4 +1,10 @@
-﻿var playerMoney = 1000;
+﻿/**
+File name: main.st
+Author: Bradley Haveman
+Site Name: Slot machine
+File decsription: main.ts contains all the logic for game.
+*/
+var playerMoney = 1000;
 var winnings = 0;
 var jackpot = 5000;
 var turn = 0;
@@ -35,6 +41,7 @@ blanksImg.src = "./images/blanks.png";
 
 var stage = new createjs.Stage(document.getElementById("canvas"));
 
+//The images and text to display
 var image = new createjs.Bitmap("./images/SlotMachine.png");
 var reset = new createjs.Bitmap("./images/reset.png");
 var betOne = new createjs.Bitmap("./images/betOne.png");
@@ -53,12 +60,14 @@ var winOrLoseTextBox = new createjs.Bitmap("./images/winOrLoseTextBox.png");
 var jackpotText = new createjs.Text("Jackpot: " + jackpot, "12px Myriad Pro", "#FF0000");
 var playerBetText = new createjs.Text("Payer Bet: " + playerBet, "12px Myriad Pro", "#FF0000");
 var creditsText = new createjs.Text("Credits: " + playerMoney, "12px Myriad Pro", "#FF0000");
-
 var winOrLoseText = new createjs.Text("Welcome!", "35px Myriad Pro", "#FFFF00");
 
-var reel1 = new createjs.Bitmap(sevensImg);
-var reel2 = new createjs.Bitmap(sevensImg);
-var reel3 = new createjs.Bitmap(sevensImg);
+//reels
+var reel1;
+var reel2;
+var reel3;
+
+var reels = [reel1 = new createjs.Bitmap(sevensImg), reel2 = new createjs.Bitmap(sevensImg), reel3 = new createjs.Bitmap(sevensImg)];
 
 var timer = 0;
 var resetClicked = false;
@@ -67,6 +76,7 @@ var betMaxClicked = false;
 var spinClicked = false;
 var closeButtonClicked = false;
 
+//Initialize the program, place the children on the canvad
 function init() {
     createjs.Ticker.setFPS(60);
     stage.enableMouseOver(20);
@@ -112,19 +122,20 @@ function init() {
     winOrLoseText.x = 194;
     winOrLoseText.y = 792;
 
-    stage.addChild(reel1);
-    reel1.x = 206;
-    reel1.y = 374;
-    stage.addChild(reel2);
-    reel2.x = 310;
-    reel2.y = 374;
-    stage.addChild(reel3);
-    reel3.x = 412;
-    reel3.y = 374;
+    stage.addChild(reels[0]);
+    reels[0].x = 206;
+    reels[0].y = 374;
+    stage.addChild(reels[1]);
+    reels[1].x = 310;
+    reels[1].y = 374;
+    stage.addChild(reels[2]);
+    reels[2].x = 412;
+    reels[2].y = 374;
 
     stage.update();
     createjs.Ticker.addEventListener("tick", handleTick);
 
+    //Mouse functions for reset
     reset.addEventListener("mouseover", function () {
         reset.alpha = 0.5;
         stage.update();
@@ -144,6 +155,7 @@ function init() {
         showPlayerStats();
     });
 
+    //Mouse functions for betOne
     betOne.addEventListener("mouseover", function () {
         betOne.alpha = 0.5;
         stage.update();
@@ -164,6 +176,7 @@ function init() {
         betOneClicked = true;
     });
 
+    //Mouse functions for betMax
     betMax.addEventListener("mouseover", function () {
         betMax.alpha = 0.5;
         stage.update();
@@ -184,6 +197,7 @@ function init() {
         betMaxClicked = true;
     });
 
+    //Mouse functions for closeButton
     closeButton.addEventListener("mouseover", function () {
         closeButton.alpha = 0.5;
         stage.update();
@@ -205,6 +219,7 @@ function init() {
         }
     });
 
+    //Mouse functions for spin
     spin.addEventListener("mouseover", function () {
         spin.alpha = 0.5;
         stage.update();
@@ -233,6 +248,7 @@ function init() {
             } else if (playerBet <= playerMoney) {
                 spinResult = Reels();
                 fruits = spinResult[0] + " - " + spinResult[1] + " - " + spinResult[2];
+
                 $("div#result>p").text(fruits);
                 determineWinnings();
                 turn++;
@@ -244,6 +260,7 @@ function init() {
     });
 }
 
+//ticker
 function handleTick() {
     if (resetClicked) {
         timer += 1;
@@ -404,36 +421,43 @@ function Reels() {
         switch (outCome[spin]) {
             case checkRange(outCome[spin], 1, 27):
                 betLine[spin] = "blank";
-
                 blanks++;
+                reels[spin].image = blanksImg;
                 break;
             case checkRange(outCome[spin], 28, 37):
                 betLine[spin] = "Grapes";
                 grapes++;
+                reels[spin].image = grapesImg;
                 break;
             case checkRange(outCome[spin], 38, 46):
                 betLine[spin] = "Banana";
                 bananas++;
+                reels[spin].image = bananasImg;
                 break;
             case checkRange(outCome[spin], 47, 54):
                 betLine[spin] = "Orange";
                 oranges++;
+                reels[spin].image = orangesImg;
                 break;
             case checkRange(outCome[spin], 55, 59):
                 betLine[spin] = "Cherry";
                 cherries++;
+                reels[spin].image = cherriesImg;
                 break;
             case checkRange(outCome[spin], 60, 62):
                 betLine[spin] = "Bar";
                 bars++;
+                reels[spin].image = barsImg;
                 break;
             case checkRange(outCome[spin], 63, 64):
                 betLine[spin] = "Bell";
                 bells++;
+                reels[spin].image = bellsImg;
                 break;
             case checkRange(outCome[spin], 65, 65):
                 betLine[spin] = "Seven";
                 sevens++;
+                reels[spin].image = sevensImg;
                 break;
         }
     }

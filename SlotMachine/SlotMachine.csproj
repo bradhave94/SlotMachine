@@ -101,6 +101,9 @@
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\lib\easeljs-0.7.1.min.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Sound\ambience.mp3" />
+    <Content Include="Sound\click.mp3" />
+    <Content Include="Sound\jackpot.mp3" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -40,6 +40,8 @@ var blanks = 0;
 var blanksImg = new Image();
 blanksImg.src = "./images/blanks.png";
 
+var animate = new createjs.Bitmap("http://designbuddy.com/wp-content/uploads/2013/02/spiral-design-animation.gif");
+
 var stage = new createjs.Stage(document.getElementById("canvas"));
 
 //The images and text to display
@@ -63,11 +65,14 @@ var playerBetText = new createjs.Text("Payer Bet: " + playerBet, "12px Myriad Pr
 var creditsText = new createjs.Text("Credits: " + playerMoney, "12px Myriad Pro", "#FF0000");
 var winOrLoseText = new createjs.Text("Welcome!", "35px Myriad Pro", "#FFFF00");
 
+var click = new Audio("./Sound/click.mp3");
+var ambience = new Audio("./Sound/ambience.mp3");
+var jackpotSound = new Audio("./Sound/jackpot.mp3");
+
 //reels
 var reel1;
 var reel2;
 var reel3;
-
 var reels = [reel1 = new createjs.Bitmap(sevensImg), reel2 = new createjs.Bitmap(sevensImg), reel3 = new createjs.Bitmap(sevensImg)];
 
 var timer = 0;
@@ -79,6 +84,9 @@ var closeButtonClicked = false;
 
 //Initialize the program, place the children on the canvad
 function init() {
+    ambience.loop = true;
+    ambience.play();
+    ambience.volume = .25
     createjs.Ticker.setFPS(60);
     stage.enableMouseOver(20);
 
@@ -147,6 +155,7 @@ function init() {
         resetClicked = true;
         resetAll();
         showPlayerStats();
+        click.play();
     })
 
     //Mouse functions for betOne
@@ -161,6 +170,7 @@ function init() {
         showPlayerStats();   
         stage.update();
         betOneClicked = true;
+        click.play();
     })
 
     //Mouse functions for betMax
@@ -175,6 +185,7 @@ function init() {
         showPlayerStats();
         stage.update();
         betMaxClicked = true;
+        click.play();
     })
 
     //Mouse functions for closeButton
@@ -186,6 +197,7 @@ function init() {
         closeButtonGloss.y = 779;
         stage.update();
         closeButtonClicked = true;
+        click.play();
 
         if (confirm("Close Window?")) {
             window.open('', '_self', '');
@@ -194,13 +206,12 @@ function init() {
     })
 
     //Mouse functions for spin
-    
     spin.addEventListener("mouseover", function () { spin.alpha = 0.5; stage.update(); });
     spin.addEventListener("rollout", function () { spin.alpha = 1; stage.update(); });
 
     /* When the player clicks the spin button the game kicks off */
-    spin.addEventListener("click", function () {
-      
+    spin.addEventListener("click", function () {  
+        click.play();
         stage.removeChild(spin); stage.addChild(spinGloss);
         spinGloss.x = 438;
         spinGloss.y = 594;
@@ -229,8 +240,7 @@ function init() {
         else {
             alert("Please enter a bet amount");
         }
-    }
-        )
+    })
 }
 
 //ticker
@@ -344,6 +354,7 @@ function checkJackPot() {
     var jackPotTry = Math.floor(Math.random() * 51 + 1);
     var jackPotWin = Math.floor(Math.random() * 51 + 1);
     if (jackPotTry == jackPotWin) {
+        jackpotSound.play();
         alert("You Won the $" + jackpot + " Jackpot!!");
         winOrLoseText.text = "JACKPOT!!!!! $" + jackpot;
         playerMoney += jackpot;
@@ -494,10 +505,4 @@ function determineWinnings() {
         lossNumber++;
         showLossMessage();
     }
-
 }
-
-
-
-
-

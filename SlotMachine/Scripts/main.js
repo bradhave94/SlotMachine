@@ -2,7 +2,7 @@
 File name: main.st
 Author: Bradley Haveman
 Site Name: Slot machine
-File decsription: main.ts contains all the logic for game.
+File decsription: main.ts contains all the logic for game. Start by setting up the canvas by adding all the buttons and create varibales for the reels. And let the player spin and win
 */
 var playerMoney = 1000;
 var winnings = 0;
@@ -39,8 +39,7 @@ var blanks = 0;
 var blanksImg = new Image();
 blanksImg.src = "./images/blanks.png";
 
-var animate = new createjs.Bitmap("http://designbuddy.com/wp-content/uploads/2013/02/spiral-design-animation.gif");
-
+//the stage
 var stage = new createjs.Stage(document.getElementById("canvas"));
 
 //The images and text to display
@@ -64,6 +63,7 @@ var playerBetText = new createjs.Text("Payer Bet: " + playerBet, "12px Myriad Pr
 var creditsText = new createjs.Text("Credits: " + playerMoney, "12px Myriad Pro", "#FF0000");
 var winOrLoseText = new createjs.Text("Welcome!", "35px Myriad Pro", "#FFFF00");
 
+//Sound fils
 var click = new Audio("./Sound/click.mp3");
 var ambience = new Audio("./Sound/ambience.mp3");
 var jackpotSound = new Audio("./Sound/jackpot.mp3");
@@ -89,6 +89,7 @@ function init() {
     createjs.Ticker.setFPS(60);
     stage.enableMouseOver(20);
 
+    //Add children
     stage.addChild(image);
     stage.addChild(reset);
     reset.x = 160;
@@ -226,8 +227,9 @@ function init() {
         closeButtonClicked = true;
         click.play();
 
-        if (confirm("Close Window?")) {
-            window.open('', '_self', '');
+        //Redirect the user
+        if (confirm("Exit The Game?")) {
+            window.location.replace("http://www.bigbustycoons.com/");
         }
     });
 
@@ -273,8 +275,9 @@ function init() {
     });
 }
 
-//ticker
+//Ticker evert, update the frame every second
 function handleTick() {
+    //Check if the button has been click and reset to original image.
     if (resetClicked) {
         timer += 1;
         if (timer > 10) {
@@ -288,6 +291,7 @@ function handleTick() {
         }
     }
 
+    //Check if the button has been click and reset to original image.
     if (betOneClicked) {
         timer += 1;
         if (timer > 10) {
@@ -301,6 +305,7 @@ function handleTick() {
         }
     }
 
+    //Check if the button has been click and reset to original image.
     if (betMaxClicked) {
         timer += 1;
         if (timer > 10) {
@@ -314,6 +319,7 @@ function handleTick() {
         }
     }
 
+    //Check if the button has been click and reset to original image.
     if (spinClicked) {
         timer += 1;
         if (timer > 10) {
@@ -327,6 +333,7 @@ function handleTick() {
         }
     }
 
+    //Check if the button has been click and reset to original image.
     if (closeButtonClicked) {
         timer += 1;
         if (timer > 10) {
@@ -387,7 +394,6 @@ function checkJackPot() {
     /* compare two random values */
     var jackPotTry = Math.floor(Math.random() * 51 + 1);
     var jackPotWin = Math.floor(Math.random() * 51 + 1);
-    jackPotTry = jackPotWin;
     if (jackPotTry == jackPotWin) {
         jackpotSound.play();
         alert("You Won the $" + jackpot + " Jackpot!!");
